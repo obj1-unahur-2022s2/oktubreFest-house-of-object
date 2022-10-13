@@ -1,13 +1,37 @@
 import marcas.*
 
 class CarpaCervecera{
-	const property cantidadGenteAdmitida
+	const property cantidadPersonasAdmitidas
+	var property personasAdentro = []
 	var property tienenBandaTradicional
 	const property jarras = [] 
 	const property marca
 	
 	// Agrega una jarra a la lista jarras.
 	method agregarJarra(unaMarca) = jarras.add(unaMarca)
+	
+	// Punto 6. Devuelve boolean. True si la persona al entrar no supera límite y si no está ebria. False en caso contrario.
+	method puedeIngresarPersonaACarpa(unaPersona) = personasAdentro.size() < cantidadPersonasAdmitidas and
+	not unaPersona.estaEbria()
+	
+	// Punto 8. Agrega una persona a la lista de personas adentro de la carpa si cumple condiciones.
+	// En caso contrario, si no cumple condiciones, tira un error.
+	method agregarPersonaACarpa(unaPersona) {
+		if (self.puedeIngresarPersonaACarpa(unaPersona))  personasAdentro.add(unaPersona)
+		else self.error("No puede ingresar a la carpa")
+		}
+	
+	// Punto 9. Sirve una jarra a una persona, siempre y cuando esté en la carpa.
+	// En caso contrario, si no está, tira un error.
+	// Crear jarra en la acción, con la marca de la carpa y la capacidad en litros.
+	method servirJarraAPersona(unaJarra, unaPersona) {
+		if (personasAdentro.contains(unaPersona)) unaPersona.jarras().add(unaJarra)
+		else self.error("La persona no está en la carpa")
+	}
+	
+	// Punto 10. Devuelve la cantidad de ebrios que tienen todas jarras de 1 litro ó más.
+	method cantidadEbriosEmpedernidos() = personasAdentro.count({ p => p.estaEbria() and 
+		p.sonTodasJarrasDe1LitroOMas() })
 }
 
 	

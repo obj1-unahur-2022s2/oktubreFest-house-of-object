@@ -12,6 +12,8 @@ describe "test de marcas"{
 	const aleman1 = new PersonaAlemana(peso=120, escuchaMusicaTradicional=true, nivelAguante= 1500)
 	const checo1 = new PersonaCheca(peso=90, escuchaMusicaTradicional=false, nivelAguante=900)
 
+	// Punto 1.
+	
 	test "contenido de alcohol de la jarra grande con corona" {
 		assert.equals(0.25, jarraGrande.contenidoDeAlcohol())
 	}
@@ -24,18 +26,20 @@ describe "test de marcas"{
 		assert.equals(0.24, jarraChica.contenidoDeAlcohol())
 	}
 	
+	// Punto 2.
+	
 	test "total de alcohol que ingirió el belga si compró 3 jarras medianas" {
 		belga1.comproJarra(jarraMediana)
 		belga1.comproJarra(jarraMediana)
 		belga1.comproJarra(jarraMediana)
-		assert.equals(9, belga1.litrosAlcohol())
+		assert.equals(9, belga1.totalAlcohol())
 	}
 	
 	test "total de alcohol que ingirió el aleman si compró una jarra de cada tamanio" {
 		aleman1.comproJarra(jarraMediana)
 		aleman1.comproJarra(jarraGrande)
 		aleman1.comproJarra(jarraChica)
-		assert.equals(10, aleman1.litrosAlcohol())
+		assert.equals(10, aleman1.totalAlcohol())
 	}
 	
 	test "total de alcohol que ingirió el checo si compró 4 jarras chicas" {
@@ -43,8 +47,10 @@ describe "test de marcas"{
 		checo1.comproJarra(jarraChica)
 		checo1.comproJarra(jarraChica)
 		checo1.comproJarra(jarraChica)
-		assert.equals(8, checo1.litrosAlcohol())
+		assert.equals(8, checo1.totalAlcohol())
 	}
+	
+	// Punto 3.
 
 	test "el belga no esta ebrio luego de tomar una jarra grande" {
 		belga1.comproJarra(jarraGrande)
@@ -83,6 +89,8 @@ describe "test de marcas"{
 		checo1.comproJarra(jarraChica)
 		assert.that(checo1.estaEbria())
 	}
+	
+	// Punto 4.
 
 	test "al belga le gusta la cerveza corona" {
 		belga1.comproJarra(jarraGrande)
@@ -125,4 +133,14 @@ describe "test de marcas"{
 		checo1.comproJarra(jarraChica)		
 		assert.that(checo1.hayMarca(hofbrau))
 	}
+	
+	// Faltan tests del requerimiento 5 en adelante.
+	
+	// Punto 5.
+	// Punto 6.
+	// Punto 7.
+	// Punto 8.
+	// Punto 9.
+	// Punto 10.
+	// Punto 11.
 }
