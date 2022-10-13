@@ -7,29 +7,31 @@ class Persona {
 	var property nivelAguante
 	
 	method estaEbria() = self.litrosAlcohol() * peso > nivelAguante	
+	
+	// Devuelve la suma total de litros de las jarras.
 	method litrosAlcohol() = jarras.sum({j=>j.litros()})
 	
 	method marcasDeCervezasQueGustan() = jarras
 	
+	// Agrega una jarra a la lista de jarras.
 	method comproJarra(unaJarra) = jarras.add(unaJarra)
 	
+	// Devuelve lista de marcas de cervezas de las jarras.
 	method marcasDeJarras() = self.marcasDeCervezasQueGustan().map({j=>j.marca()})
+	
+	// Devuelve booleano. True si hay marca x, false en caso contrario.
 	method hayMarca(unaMarca) = self.marcasDeJarras().contains(unaMarca)
 }
 
 class PersonaBelga inherits Persona {
 	
-	// Cervezas con más de 4 gramos de lúpulo por litro. Recorrido en jarras.
 	 override method marcasDeCervezasQueGustan() = jarras.filter({j=>j.marca().lupulos() > 4})
-	 
-
 }
 
 class PersonaCheca inherits Persona {
-	// Cervezas de más de 8 % de graduación. Recorrido en jarras.
-	 override method marcasDeCervezasQueGustan() = jarras.filter({j=>j.marca().graduacionAlcoholica() > 0.08})
+	
+	override method marcasDeCervezasQueGustan() = jarras.filter({j=>j.marca().graduacionAlcoholica() > 0.08})
 }
 
 class PersonaAlemana inherits Persona {
-	
 }

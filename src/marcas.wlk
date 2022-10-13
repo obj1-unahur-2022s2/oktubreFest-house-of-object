@@ -7,7 +7,6 @@ class Cerveza {
 }
 
 class CervezaRubia inherits Cerveza {
-	
 }
 
 class CervezaNegra inherits Cerveza {
@@ -17,6 +16,7 @@ class CervezaNegra inherits Cerveza {
 }
 
 class CervezaRoja inherits CervezaNegra {
+	
 	override method graduacion() = super() * 1.25
 }
 

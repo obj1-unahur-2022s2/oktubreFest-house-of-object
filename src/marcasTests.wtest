@@ -12,33 +12,33 @@ describe "test de marcas"{
 	const aleman1 = new PersonaAlemana(peso=120, escuchaMusicaTradicional=true, nivelAguante= 1500)
 	const checo1 = new PersonaCheca(peso=90, escuchaMusicaTradicional=false, nivelAguante=900)
 
-	//litros * graduacionalcoholica de la marca =
-
 	test "contenido de alcohol de la jarra grande con corona" {
 		assert.equals(0.25, jarraGrande.contenidoDeAlcohol())
 	}
+	
 	test "contenido de alcohol de la jarra mediana con guiness" {
 		assert.equals(0.3, jarraMediana.contenidoDeAlcohol())
 	}
+	
 	test "contenido de alcohol de la jarra chica con hofbrau" {
 		assert.equals(0.24, jarraChica.contenidoDeAlcohol())
 	}
 	
-	test "total de alcohol que ingirió el belga si compró 3 jarras medianas"{
+	test "total de alcohol que ingirió el belga si compró 3 jarras medianas" {
 		belga1.comproJarra(jarraMediana)
 		belga1.comproJarra(jarraMediana)
 		belga1.comproJarra(jarraMediana)
 		assert.equals(9, belga1.litrosAlcohol())
 	}
 	
-	test "total de alcohol que ingirió el aleman si compró una jarra de cada tamanio"{
+	test "total de alcohol que ingirió el aleman si compró una jarra de cada tamanio" {
 		aleman1.comproJarra(jarraMediana)
 		aleman1.comproJarra(jarraGrande)
 		aleman1.comproJarra(jarraChica)
 		assert.equals(10, aleman1.litrosAlcohol())
 	}
 	
-	test "total de alcohol que ingirió el checo si compró 4 jarras chicas"{
+	test "total de alcohol que ingirió el checo si compró 4 jarras chicas" {
 		checo1.comproJarra(jarraChica)
 		checo1.comproJarra(jarraChica)
 		checo1.comproJarra(jarraChica)
@@ -46,28 +46,25 @@ describe "test de marcas"{
 		assert.equals(8, checo1.litrosAlcohol())
 	}
 
-
-//estaEbria() = litrosAlcohol() * peso > nivelAguante
-//	belga1 (peso=100, escuchaMusicaTradicional=false, nivelAguante= 1000)
-
-	test "el belga no esta ebrio luego de tomar una jarra grande"{
+	test "el belga no esta ebrio luego de tomar una jarra grande" {
 		belga1.comproJarra(jarraGrande)
 		assert.notThat(belga1.estaEbria())
 	}
-	test "el belga  esta ebrio luego de tomar 2 jarras grandes y 1 jarra chica"{
+	
+	test "el belga  esta ebrio luego de tomar 2 jarras grandes y 1 jarra chica" {
 		belga1.comproJarra(jarraGrande)
 		belga1.comproJarra(jarraGrande)
 		belga1.comproJarra(jarraChica)
 		assert.that(belga1.estaEbria())
 	}
-//aleman1(peso=120, escuchaMusicaTradicional=true, nivelAguante= 1500)
 
-	test "el aleman no esta ebrio luego de tomar una jarra grande"{
+	test "el aleman no esta ebrio luego de tomar una jarra grande" {
 		aleman1.comproJarra(jarraGrande)
 		aleman1.comproJarra(jarraMediana)
 		assert.notThat(aleman1.estaEbria())
 	}
-	test "el aleman esta ebrio luego de tomar 2 jarras grandes, una mediana y 1 jarra chica"{
+	
+	test "el aleman esta ebrio luego de tomar 2 jarras grandes, una mediana y 1 jarra chica" {
 		aleman1.comproJarra(jarraGrande)
 		aleman1.comproJarra(jarraGrande)
 		aleman1.comproJarra(jarraMediana)
@@ -75,78 +72,57 @@ describe "test de marcas"{
 		assert.that(aleman1.estaEbria())
 	}
 	
-//checo1 (peso=90, escuchaMusicaTradicional=false, nivelAguante=900)
-	
-	test "el checo no esta ebrio luego de tomar una jarra mediana"{
+	test "el checo no esta ebrio luego de tomar una jarra mediana" {
 		checo1.comproJarra(jarraMediana)
 		assert.notThat(checo1.estaEbria())
 	}
-	test "el checo esta ebrio luego de tomar 2 jarras grandes y 1 jarra chica"{
+	
+	test "el checo esta ebrio luego de tomar 2 jarras grandes y 1 jarra chica" {
 		checo1.comproJarra(jarraGrande)
 		checo1.comproJarra(jarraGrande)
 		checo1.comproJarra(jarraChica)
 		assert.that(checo1.estaEbria())
 	}
-//marcasDeCervezasQueGustan al belga() = lupulos() > 4})
-	test "al belga le gusta la cerveza corona"{
+
+	test "al belga le gusta la cerveza corona" {
 		belga1.comproJarra(jarraGrande)
 		assert.that(belga1.hayMarca(corona))
 	}
 	
-	test "al belga le gusta la cerveza guiness"{
+	test "al belga le gusta la cerveza guiness" {
 		belga1.comproJarra(jarraMediana)		
 		assert.that(belga1.hayMarca(guiness))
 	}
-	test "al belga le gusta la cerveza hofbrau"{
+	test "al belga le gusta la cerveza hofbrau" {
 		belga1.comproJarra(jarraChica)		
 		assert.that(belga1.hayMarca(hofbrau))
 	}
-	
-	
-//al aleman le gustan todas las cervezaas	
-	test "al aleman le gusta la cerveza corona"{
+
+	test "al aleman le gusta la cerveza corona" {
 		aleman1.comproJarra(jarraGrande)
 		assert.that(aleman1.hayMarca(corona))
 	}
 	
-	test "al aleman le gusta la cerveza guiness"{
+	test "al aleman le gusta la cerveza guiness" {
 		aleman1.comproJarra(jarraMediana)		
 		assert.that(aleman1.hayMarca(guiness))
 	}
-	test "al aleman le gusta la cerveza hofbrau"{
+	test "al aleman le gusta la cerveza hofbrau" {
 		aleman1.comproJarra(jarraChica)		
 		assert.that(aleman1.hayMarca(hofbrau))
 	}
-//al checo le gusta marca().graduacionAlcoholica() > 8
-	test "al checo no le gusta la cerveza corona"{
+
+	test "al checo no le gusta la cerveza corona" {
 		checo1.comproJarra(jarraGrande)
 		assert.notThat(checo1.hayMarca(corona))
 	}
 	
-	test "al checo1 le gusta la cerveza guiness"{
+	test "al checo1 le gusta la cerveza guiness" {
 		checo1.comproJarra(jarraMediana)		
 		assert.that(checo1.hayMarca(guiness))
 	}
-	test "al checo1 le gusta la cerveza hofbrau"{
+	test "al checo1 le gusta la cerveza hofbrau" {
 		checo1.comproJarra(jarraChica)		
 		assert.that(checo1.hayMarca(hofbrau))
 	}
-
-
 }
-
-
-
-/*
-Saber el contenido de alcohol de una jarra de cerveza. 
-* Ej: una jarra de cerveza de medio litro de la marca Hofbräu 
-* (suponiendo que tiene 8 % de graduación alcohólica) 
-* tiene 0.5 * 0.08 = 0.04 litros de alcohol.
-
-Saber el total de alcohol que ingirió una persona 
-* (en base a las jarras de cerveza que compró).
-
-Saber si una persona está ebria o no.
-
-Saber si a una persona le gusta, o no, una determinada marca de cerveza.
- */
