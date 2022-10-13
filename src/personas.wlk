@@ -2,14 +2,15 @@ import marcas.*
 
 class Persona {
 	var property peso
-	var property jarras = []
-	var property escuchaMusicaTradicional = true
+	const property jarras = []
+	var property escuchaMusicaTradicional
 	var property nivelAguante
 	
-	method estaEbria() = self.litrosAlcohol() * peso > nivelAguante
+	// method estaEbria() = self.litrosAlcohol() * peso > nivelAguante
 	
 	// Agregar método que calcule litros de las jarras.
-	method litrosAlcohol() = 10	// Hacer sum de jarras.
+	// Hacer sum de jarras.
+	// method litrosAlcohol() = 
 	
 	// Recorrido por las jarras.
 	// method marcasDeCervezasQueGustan() =
