@@ -1,5 +1,5 @@
 class Cerveza {
-	const property cantLupos
+	const property lupulos
 	const property paisOrigen
 	var property graduacionAlcoholica
 	
@@ -7,12 +7,13 @@ class Cerveza {
 }
 
 class CervezaRubia inherits Cerveza {
+	
 }
 
 class CervezaNegra inherits Cerveza {
 	var property graduacionReglamentaria
 	
-	override method graduacion() = graduacionReglamentaria.min(cantLupos * 2)
+	override method graduacion() = graduacionReglamentaria.min(lupulos * 2)
 }
 
 class CervezaRoja inherits CervezaNegra {
@@ -25,3 +26,6 @@ class Jarra {
 	
 	method contenidoDeAlcohol() = litros * marca.graduacionAlcoholica()
 }
+
+
+

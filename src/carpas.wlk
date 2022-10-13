@@ -4,10 +4,9 @@ class CarpaCervecera{
 	const property cantidadGenteAdmitida
 	var property tienenBandaTradicional
 	const property jarras = [] 
-	
+	const property marca
 	// Método para agregar jarras.
-	method agregarJarra(unaJarra) = jarras.add(unaJarra)
-	
+	method agregarJarra(unaMarca) = jarras.add(unaMarca)	
 }
 
 	
