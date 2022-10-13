@@ -1,10 +1,3 @@
-class Jarra {
-	const property litros
-	const property marca
-	
-	method contenidoDeAlcohol() = litros * marca.graduacionAlcoholica()
-}
-
 class Cerveza {
 	const property cantLupos
 	const property paisOrigen
@@ -24,4 +17,11 @@ class CervezaNegra inherits Cerveza {
 
 class CervezaRoja inherits CervezaNegra {
 	override method graduacion() = super() * 1.25
+}
+
+class Jarra {
+	const property litros
+	const property marca
+	
+	method contenidoDeAlcohol() = litros * marca.graduacionAlcoholica()
 }
