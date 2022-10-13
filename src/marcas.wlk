@@ -24,6 +24,7 @@ class Jarra {
 	const property litros
 	const property marca
 	
+	// Contenido de alcohol de la jarra.
 	method contenidoDeAlcohol() = litros * marca.graduacionAlcoholica()
 }
 

@@ -6,15 +6,16 @@ class Persona {
 	var property escuchaMusicaTradicional
 	var property nivelAguante
 	
+	// Agrega una jarra a la lista de jarras.
+	method comproJarra(unaJarra) = jarras.add(unaJarra)
+	
+	// Devuelve true si está ebria, false en caso contrario.
 	method estaEbria() = self.litrosAlcohol() * peso > nivelAguante	
 	
-	// Devuelve la suma total de litros de las jarras.
+	// Devuelve la suma total de litros de las jarras que ingirió la persona.
 	method litrosAlcohol() = jarras.sum({j=>j.litros()})
 	
 	method marcasDeCervezasQueGustan() = jarras
-	
-	// Agrega una jarra a la lista de jarras.
-	method comproJarra(unaJarra) = jarras.add(unaJarra)
 	
 	// Devuelve lista de marcas de cervezas de las jarras.
 	method marcasDeJarras() = self.marcasDeCervezasQueGustan().map({j=>j.marca()})
