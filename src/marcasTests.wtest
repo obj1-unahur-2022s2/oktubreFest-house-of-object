@@ -129,9 +129,9 @@ describe "test de marcas"{
 		assert.that(aleman1.hayMarca(hofbrau))
 	}
 
-	test "al checo no le gusta la cerveza corona" {
-		checo1.comproJarra(jarraGrande)
-		assert.notThat(checo1.hayMarca(corona))
+	test "al belga no le gusta la cerveza guiness" {
+		belga1.comproJarra(jarraGrande)
+		assert.notThat(belga1.hayMarca(guiness))
 	}
 	
 	test "al checo1 le gusta la cerveza guiness" {
@@ -253,4 +253,75 @@ describe "test de marcas"{
 		assert.notThat(aleman1.esPatriota())
 	}
 	
+	//punto 12.
+	
+	test "dos personas son compatibles" {
+		aleman1.comproJarra(jarraGrande)
+		aleman1.comproJarra(jarraMediana)
+		aleman1.comproJarra(jarraChica)
+		
+		aleman2.comproJarra(jarraGrande)
+		aleman2.comproJarra(jarraMediana)
+		assert.that(aleman1.esCompatibleCon(aleman2))
+		assert.equals(2, aleman1.CantidadDeMarcasQueComparteCon(aleman2))
+		assert.equals(3, aleman1.jarras().size())
+		assert.equals(2, aleman2.jarras().size())
+	}
+	
+	test "dos personas NO son compatibles" {
+		aleman1.comproJarra(jarraGrande)
+		aleman1.comproJarra(jarraMediana)
+		aleman1.comproJarra(jarraChica)
+		
+		aleman2.comproJarra(jarraGrande)
+		assert.notThat(aleman1.esCompatibleCon(aleman2))
+		assert.equals(1, aleman1.CantidadDeMarcasQueComparteCon(aleman2))
+		assert.equals(3, aleman1.jarras().size())
+		assert.equals(1, aleman2.jarras().size())
+	}
+	
+	// Punto 13
+	
+	test "una carpa es homogénea" {
+		carpaAlemana.agregarPersonaACarpa(aleman2)
+		carpaAlemana.agregarPersonaACarpa(aleman1)				
+		assert.that(carpaAlemana.esHomogenea())
+	}
+	
+	test "una carpa NO es homogénea" {
+		carpaAlemana.agregarPersonaACarpa(pocoAguante)
+		carpaAlemana.agregarPersonaACarpa(aleman1)				
+		assert.notThat(carpaAlemana.esHomogenea())
+	}
+	
+	// Punto 14
+	
+	test "en qué carpas le sirvieron cerveza" {
+		carpaAlemana.agregarPersonaACarpa(aleman1)
+		carpaAlemana.servirJarraAPersona(aleman1, 0.5)						
+		assert.equals(carpaAlemana,aleman1.jarras().first().carpa())
+	}
+	
+	// Punto 15
+	test "obtener para una carpa los asistentes que a los que no se les ha servido cerveza en esa carpa" {
+		carpaAlemana.agregarPersonaACarpa(aleman1)
+		carpaAlemana.agregarPersonaACarpa(pocoAguante)
+		carpaAlemana.servirJarraAPersona(aleman1, 0.5)						
+		assert.equals(pocoAguante,carpaAlemana.asistentesQueNoSeLesSirvio().first())
+	}
+	
+	// Punto 16
+	test "persona, si está entrando en el vicio" {
+		aleman1.comproJarra(jarraChica)
+		aleman1.comproJarra(jarraMediana)
+		aleman1.comproJarra(jarraGrande)
+		assert.that(aleman1.estaEntrandoAlVicio())
+	}
+	
+	test "persona, NO está entrando en el vicio" {
+		aleman1.comproJarra(jarraMediana)
+		aleman1.comproJarra(jarraGrande)
+		aleman1.comproJarra(jarraChica)
+		assert.notThat(aleman1.estaEntrandoAlVicio())
+	}
 }

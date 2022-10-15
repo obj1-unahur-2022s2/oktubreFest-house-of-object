@@ -20,8 +20,8 @@ class Persona {
 	method marcasDeCervezasQueGustan() = jarras
 	// MOD el punto 4 me parece que es esto
 	method leGustasUna(marca)	
-	// Punto 4. Devuelve lista de marcas de cervezas de las jarras.
-	method marcasDeJarras() = self.marcasDeCervezasQueGustan().map({j=>j.marca()})
+	// Punto 4. Devuelve lista de marcas de cervezas de las jarras. MOD, aca estaba usando marcasDeCervezasQueGustan, que es lo mismo que jarras
+	method marcasDeJarras() = jarras.map({j=>j.marca()})
 	
 	// Punto 4. Devuelve booleano. True si hay marca x, false en caso contrario.
 	method hayMarca(unaMarca) = self.marcasDeJarras().contains(unaMarca)
@@ -38,7 +38,41 @@ class Persona {
 	
 	// Punto 11. Devuelve boolean. True si la persona compró todas jarras del país del que proviene.MOD, saco persona y comparo con nacionalidad
 	method esPatriota() = jarras.all({j => j.marca().paisOrigen() == self.nacionalidad()})
-	// MOD: Devuelvo la nacionalidad MOD. agregue metodo abstracto
+	// Punto 12. Saber si dos personas son compatibles. La condición es que considerando las marcas de compró cada uno, hay más coincidencias 
+	//(o sea, marcas que compraron los dos), que diferencias (o sea, marcas que compró uno y el otro no).
+	method esCompatibleCon(otraPersona) = self.CantidadDeMarcasQueComparteCon(otraPersona) 
+										> self.CantidadDeMarcasQueNoComparteCon(otraPersona)
+	// Tiene una Marca revision de punto 4
+	method tiene(unaMarca) = jarras.any({
+		marca => marca == unaMarca
+	})
+	// Cantidad de marcas que comparte
+	method CantidadDeMarcasQueComparteCon(otraPersona) { return
+		jarras.count({
+			marca => otraPersona.tiene(marca)
+		})
+	}
+	// Cantidad de marcas que no Comparte
+	method CantidadDeMarcasQueNoComparteCon(otraPersona) { return
+		jarras.count({
+			marca => !otraPersona.tiene(marca)
+		})
+	}
+	
+	// Se sirvio en una carpa dedterminada punto 15
+	method seSirvioEn(unaCarpa) = jarras.any({
+		jarra => jarra.carpa() == unaCarpa
+	})
+	
+	// Punto 16 Saber, para una persona, si está entrando en el vicio. 
+	// La condición es que cada jarra que compró tiene la misma capacidad, o más, que la anterior.
+	method estaEntrandoAlVicio() { 
+			//const numeroMax = self.jarras().size() - 1 
+			return	(1..jarras.size() -1).all({
+							indice => jarras.get(indice).litros() >= jarras.get(indice - 1).litros()
+					})
+	} 
+	// MOD: Devuelvo la nacionalidad agregue metodo abstracto
 	method nacionalidad()
 	
 	
@@ -46,14 +80,14 @@ class Persona {
 
 class PersonaBelga inherits Persona {
 	// Punto 4.
-	 override method marcasDeCervezasQueGustan() = jarras.filter({j=>j.marca().lupulos() > 4})	 
+	 //override method marcasDeCervezasQueGustan() = jarras.filter({j=>j.marca().lupulos() > 4})	 
 	 override method nacionalidad() = "Belgica" //Agragado
 	 override method leGustasUna(marca)	= marca.lupulos() > 4 //Agregue esto
 }
 
 class PersonaCheca inherits Persona {	
-	// Punto 4.MOD. puse la graduacion segun se modifico en la marca
-	override method marcasDeCervezasQueGustan() = jarras.filter({j=>j.marca().graduacion() > 0.08})
+	// Punto 4.MOD. puse la graduacion segun se modifico en la marca saco el metodo de abajo porque el enunciado dice marca no marcas
+	//override method marcasDeCervezasQueGustan() = jarras.filter({j=>j.marca().graduacion() > 0.08})
 	override method nacionalidad() = "Republica Checa" //Agragado
 	override method leGustasUna(marca)	= marca.graduacion() > 0.08 //Agregue esto
 }

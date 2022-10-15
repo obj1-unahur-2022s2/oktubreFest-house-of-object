@@ -25,13 +25,27 @@ class CarpaCervecera{
 	// En caso contrario, si no está, tira un error.
 	// Crear jarra en la acción, con la marca de la carpa y la capacidad en litros.//MOD creo la jarra en metodo
 	method servirJarraAPersona(unaPersona, capacidad) {
-		if (personasAdentro.contains(unaPersona)) unaPersona.jarras().add(new Jarra(marca=self.marca(), litros=capacidad))
+		if (personasAdentro.contains(unaPersona)) unaPersona.jarras().add(new Jarra(marca=self.marca(), litros=capacidad, carpa=self))
 		else self.error("La persona no está en la carpa")
 	}
 	
 	// Punto 10. Devuelve la cantidad de ebrios que tienen todas jarras de 1 litro ó más.
 	method cantidadEbriosEmpedernidos() = personasAdentro.count({ p => p.estaEbria() and 
 		p.sonTodasJarrasDe1LitroOMas() })
+		
+	//  Punto 10. Saber si una carpa es homogénea: la condición es que todas las personas que están son de la misma nacionalidad.
+	method esHomogenea() = personasAdentro.all({
+		persona => personasAdentro.first().nacionalidad() == persona.nacionalidad()
+	})
+	
+	// Punto 15. Con el dato agregado en el punto anterior, obtener para una carpa los asistentes que a los que no se les ha 
+	//servido cerveza en esa carpa (aunque posiblemente sí en otras).
+	method asistentesQueNoSeLesSirvio(){ return
+		personasAdentro.filter({
+			persona => !persona.seSirvioEn(self)
+		})
+	}
+	
 }
 
 	
