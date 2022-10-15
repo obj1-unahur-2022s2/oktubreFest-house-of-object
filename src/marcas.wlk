@@ -1,18 +1,19 @@
 class Cerveza {
 	const property lupulos
 	const property paisOrigen
-	var property graduacionAlcoholica
 	
-	method graduacion() = graduacionAlcoholica
+	//MOD cambie de property a setter y el getter lo deje sin cuerpo para sobreescribir y hacer la clase abstracta
+	//method graduacionAlcoholica(unaGraduacionAlcoholica){graduacionAlcoholica = unaGraduacionAlcoholica} 
+	method graduacion()
 }
 
 class CervezaRubia inherits Cerveza {
+	var graduacionAlcoholica
+	override method graduacion() = graduacionAlcoholica
 }
 
-class CervezaNegra inherits Cerveza {
-	var property graduacionReglamentaria
-	
-	override method graduacion() = graduacionReglamentaria.min(lupulos * 2)
+class CervezaNegra inherits Cerveza {	
+	override method graduacion() = graduacionReglamentaria.graduacion().min(lupulos * 2)
 }
 
 class CervezaRoja inherits CervezaNegra {
@@ -24,8 +25,12 @@ class Jarra {
 	const property litros
 	const property marca
 	
-	// Punto 1. Contenido de alcohol de la jarra.
-	method contenidoDeAlcohol() = litros * marca.graduacionAlcoholica()
+	// Punto 1. Contenido de alcohol de la jarra.MOD se cambio por graduacion
+	method contenidoDeAlcohol() = litros * marca.graduacion()
+}
+
+object graduacionReglamentaria {
+	var property graduacion = 0.8
 }
 
 

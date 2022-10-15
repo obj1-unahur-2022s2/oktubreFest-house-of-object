@@ -1,16 +1,25 @@
 import marcas.*
 import personas.*
+import carpas.*
 
 describe "test de marcas"{
 	const corona = new CervezaRubia(lupulos = 10, paisOrigen = "Mexico", graduacionAlcoholica = 0.05)
-	const guiness = new CervezaNegra(lupulos = 25, paisOrigen = "Irlanda", graduacionAlcoholica = 0.10, graduacionReglamentaria=15)
-	const hofbrau = new CervezaRoja(lupulos = 20, paisOrigen = "Alemania", graduacionAlcoholica = 0.12, graduacionReglamentaria=15)
+	const guiness = new CervezaNegra(lupulos = 25, paisOrigen = "Irlanda")
+	const hofbrau = new CervezaRoja(lupulos = 20, paisOrigen = "Alemania")
 	const jarraGrande = new Jarra(litros = 5, marca= corona)
 	const jarraMediana = new Jarra(litros = 3, marca= guiness)
 	const jarraChica = new Jarra(litros = 2, marca=hofbrau)
 	const belga1 = new PersonaBelga(peso=100, escuchaMusicaTradicional=false, nivelAguante= 1000)
 	const aleman1 = new PersonaAlemana(peso=120, escuchaMusicaTradicional=true, nivelAguante= 1500)
+	const aleman2 = new PersonaAlemana(peso=120, escuchaMusicaTradicional=false, nivelAguante= 1500)
 	const checo1 = new PersonaCheca(peso=90, escuchaMusicaTradicional=false, nivelAguante=900)
+	const pocoAguante = new PersonaCheca(peso=90, escuchaMusicaTradicional=false, nivelAguante=1)
+	const pocoAguante2 = new PersonaCheca(peso=45, escuchaMusicaTradicional=false, nivelAguante=1)
+	
+	const carpaAlemana = new CarpaCervecera(cantidadPersonasAdmitidas=10, marca=hofbrau, tienenBandaTradicional=true)
+	const carpaIrlandesa = new CarpaCervecera(cantidadPersonasAdmitidas=7, marca=guiness)
+	const carpaUnipersonal = new CarpaCervecera(cantidadPersonasAdmitidas=1, marca=guiness)
+	
 
 	// Punto 1.
 	
@@ -19,11 +28,11 @@ describe "test de marcas"{
 	}
 	
 	test "contenido de alcohol de la jarra mediana con guiness" {
-		assert.equals(0.3, jarraMediana.contenidoDeAlcohol())
+		assert.equals(2.4, jarraMediana.contenidoDeAlcohol())
 	}
 	
 	test "contenido de alcohol de la jarra chica con hofbrau" {
-		assert.equals(0.24, jarraChica.contenidoDeAlcohol())
+		assert.equals(2, jarraChica.contenidoDeAlcohol())
 	}
 	
 	// Punto 2.
@@ -137,10 +146,111 @@ describe "test de marcas"{
 	// Faltan tests del requerimiento 5 en adelante.
 	
 	// Punto 5.
+	test "persona quiere entrar a una carpa" {
+		carpaAlemana.agregarPersonaACarpa(aleman1)
+		carpaAlemana.agregarPersonaACarpa(aleman2)				
+		assert.that(aleman1.quiereEntrarPersonaACarpa(carpaAlemana))
+	}
+	
+	test "persona no quiere entrar a una carpa por cantidad impar" {
+		carpaAlemana.agregarPersonaACarpa(aleman1)		
+		assert.notThat(aleman1.quiereEntrarPersonaACarpa(carpaAlemana))
+	}
+	
+	test "persona no quiere entrar a una carpa por no hay musica tradicional" {
+		carpaIrlandesa.agregarPersonaACarpa(aleman1)		
+		assert.notThat(aleman1.quiereEntrarPersonaACarpa(carpaIrlandesa))
+	}
+	
 	// Punto 6.
+	test "deja ingresar a una persona" {				
+		assert.that(carpaIrlandesa.puedeIngresarPersonaACarpa(aleman1))
+	}
+	
+	test "no deja ingresar a una persona por limite" {
+		carpaUnipersonal.agregarPersonaACarpa(aleman2)				
+		assert.notThat(carpaUnipersonal.puedeIngresarPersonaACarpa(aleman1))
+	}
+	
+	test "no deja ingresar a una persona por ebrio" {
+		pocoAguante.comproJarra(jarraGrande)
+		pocoAguante.comproJarra(jarraMediana)
+		pocoAguante.comproJarra(jarraChica)						
+		assert.notThat(carpaUnipersonal.puedeIngresarPersonaACarpa(pocoAguante))
+	}
+	
 	// Punto 7.
+	test "una persona puede entrar a una carpa, es decir, 
+			si quiere entrar a la carpa y la carpa lo deja entrar." {			
+		assert.that(aleman1.puedeIngresarPersonaACarpa(carpaUnipersonal))
+	}
+	
+	test "una persona no puede entrar a una carpa, por limite" {
+		carpaUnipersonal.agregarPersonaACarpa(aleman2)			
+		assert.notThat(aleman1.puedeIngresarPersonaACarpa(carpaUnipersonal))
+	}
+	
 	// Punto 8.
+	test "Hacer que una persona efectivamente no entre a una carpa" {
+		carpaUnipersonal.agregarPersonaACarpa(aleman2)	
+		assert.throwsExceptionWithMessage("No puede ingresar a la carpa",{ 
+				carpaUnipersonal.agregarPersonaACarpa(aleman1)				
+			}	
+		)
+	}
+	
 	// Punto 9.
+	test "Hacer que una carpa le sirva una jarra de cerveza a una persona." {
+		carpaUnipersonal.agregarPersonaACarpa(aleman1)	
+		carpaUnipersonal.servirJarraAPersona(aleman1, 0.5)		
+		assert.equals(1, aleman1.jarras().size())
+	}
+	
+	test "Hacer que una carpa NO le sirva una jarra de cerveza a una persona" {
+		carpaUnipersonal.agregarPersonaACarpa(aleman2)	
+		assert.throwsExceptionWithMessage("La persona no está en la carpa",{ 
+				carpaUnipersonal.servirJarraAPersona(aleman1, 0.5)				
+			}	
+		)
+	}
+	
 	// Punto 10.
+	test "Saber cuantos ebrios empedernidos hay dentro de una carpa" {
+		carpaAlemana.agregarPersonaACarpa(pocoAguante)
+		carpaAlemana.agregarPersonaACarpa(aleman1)	
+		carpaAlemana.servirJarraAPersona(pocoAguante, 1)
+		carpaAlemana.servirJarraAPersona(pocoAguante, 1)			
+		assert.equals(1,carpaAlemana.cantidadEbriosEmpedernidos())
+	}
+	
+	test "Saber cuantos ebrios empedernidos hay dentro de una carpa otra" {
+		carpaAlemana.agregarPersonaACarpa(pocoAguante)
+		carpaAlemana.agregarPersonaACarpa(pocoAguante2)	
+		carpaAlemana.servirJarraAPersona(pocoAguante, 1)
+		carpaAlemana.servirJarraAPersona(pocoAguante, 1)
+		carpaAlemana.servirJarraAPersona(pocoAguante2, 1)
+		carpaAlemana.servirJarraAPersona(pocoAguante2, 1)			
+		assert.equals(2,carpaAlemana.cantidadEbriosEmpedernidos())
+	}
+	
 	// Punto 11.
+	
+	test "Saber si una persona es patriota," {
+		carpaAlemana.agregarPersonaACarpa(aleman1)	
+		carpaAlemana.servirJarraAPersona(aleman1, 0.5)		
+		carpaAlemana.servirJarraAPersona(aleman1, 0.5)
+		carpaAlemana.servirJarraAPersona(aleman1, 0.5)	
+		carpaAlemana.servirJarraAPersona(aleman1, 0.5)				
+		assert.that(aleman1.esPatriota())
+	}
+	
+	test "Saber si una persona No es patriota," {
+		carpaIrlandesa.agregarPersonaACarpa(aleman1)	
+		carpaIrlandesa.servirJarraAPersona(aleman1, 0.5)		
+		carpaIrlandesa.servirJarraAPersona(aleman1, 0.5)
+		carpaIrlandesa.servirJarraAPersona(aleman1, 0.5)	
+		carpaIrlandesa.servirJarraAPersona(aleman1, 0.5)				
+		assert.notThat(aleman1.esPatriota())
+	}
+	
 }
